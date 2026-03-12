@@ -31,11 +31,6 @@ if st.button("Check Status"):
     activity = activity_map[prediction[0]]
 
     # Display activit…
-[6:36 PM, 3/11/2026] Denoo💙: VitalTrack is a Python-based health monitoring app designed for athletes and fitness enthusiasts. It continuously tracks key physiological parameters — including heart rate, body temperature, blood oxygen, and step count — to predict activity status (Resting, Walking, Running) and provide real-time fatigue and stress alerts
-[2:26 PM, 3/12/2026] Denoo💙: elizabeth-esene/stress-detection-app/m
-[2:30 PM, 3/12/2026] Denoo💙: https://stress--detection.streamlit.app/
-[7:41 PM, 3/12/2026] Denoo💙: import streamlit as st
-import joblib
 
 # Load your trained model
 model = joblib.load("fatigue_model.pkl")
