@@ -3,7 +3,7 @@
 
 # In[2]:
 
- import streamlit as st
+import streamlit as st
 import joblib
 
 # Load your trained model
