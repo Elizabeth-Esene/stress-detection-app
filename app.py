@@ -27,18 +27,17 @@ col1, col2 = st.columns(2)
 
 with col1:
     heart_rate = st.number_input(
-        "Heart Rate (bpm)", min_value=0, max_value=220, value=70, key="hr"
+        "Heart Rate (bpm)"
     )
     temperature = st.number_input(
-        "Body Temperature (°C)", min_value=30.0, max_value=45.0, value=36.5, key="temp"
-    )
+        "Body Temperature (°C)"
 
 with col2:
     oxygen = st.number_input(
-        "Blood Oxygen (%)", min_value=50, max_value=100, value=98, key="oxy"
+        "Blood Oxygen (%)"
     )
     steps = st.number_input(
-        "Step Count", min_value=0, max_value=50000, value=0, key="steps"
+        "Step Count"
     )
 
 # ------------------ DISPLAY VITAL SIGNS ------------------
