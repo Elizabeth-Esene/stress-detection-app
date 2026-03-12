@@ -2,61 +2,70 @@
 # coding: utf-8
 
 # In[2]:
-
 import streamlit as st
-import joblib
 import pandas as pd
+import joblib
 
-# Load your trained model
+# ------------------ LOAD MODEL ------------------
+# Make sure "fatigue_model.pkl" is in the same directory
 model = joblib.load("fatigue_model.pkl")
 
-# Map model outputs to activity
+# Map model output to activity labels
 activity_map = {0: "Resting", 1: "Walking", 2: "Running"}
 
-# ------------------ APP DESIGN ------------------
-
-# Page title
+# ------------------ PAGE SETUP ------------------
 st.set_page_config(page_title="Fatigue Monitoring System", layout="wide")
-
 st.title("🏃 Fatigue & Stress Monitoring System")
 st.markdown("### 🩺 Athlete Health Monitoring Dashboard")
 st.markdown("---")
 
-# Sidebar for inputs
-st.sidebar.header("📥 Enter Athlete Data")
+# ------------------ INPUTS (on main page) ------------------
+st.subheader("📥 Enter Athlete Data")
 
-heart_rate = st.sidebar.number_input("Heart Rate (bpm)", min_value=0)
-temperature = st.sidebar.number_input("Body Temperature (°C)", min_value=0.0)
-oxygen = st.sidebar.number_input("Blood Oxygen (%)", min_value=0)
-steps = st.sidebar.number_input("Step Count", min_value=0)
-
-# Layout columns
+# Use columns for clean layout
 col1, col2 = st.columns(2)
 
 with col1:
-    st.subheader("📊 Vital Signs")
-
-    st.write("Heart Rate:", heart_rate, "bpm")
-    st.progress(min(int(heart_rate)/200,1.0))
-
-    st.write("Body Temperature:", temperature, "°C")
-    st.progress(min(temperature/50,1.0))
+    heart_rate = st.number_input(
+        "Heart Rate (bpm)", min_value=0, max_value=220, value=70, key="hr"
+    )
+    temperature = st.number_input(
+        "Body Temperature (°C)", min_value=30.0, max_value=45.0, value=36.5, key="temp"
+    )
 
 with col2:
-    st.subheader("📈 Activity Data")
+    oxygen = st.number_input(
+        "Blood Oxygen (%)", min_value=50, max_value=100, value=98, key="oxy"
+    )
+    steps = st.number_input(
+        "Step Count", min_value=0, max_value=50000, value=0, key="steps"
+    )
 
-    st.write("Blood Oxygen:", oxygen, "%")
-    st.progress(min(oxygen/100,1.0))
+# ------------------ DISPLAY VITAL SIGNS ------------------
+st.markdown("---")
+st.subheader("📊 Vital Signs Overview")
 
-    st.write("Step Count:", steps)
+col3, col4 = st.columns(2)
 
-# ------------------ PREDICTION ------------------
+with col3:
+    st.write("❤️ Heart Rate:", heart_rate, "bpm")
+    st.progress(min(float(heart_rate)/200, 1.0))
 
+    st.write("🌡 Body Temperature:", temperature, "°C")
+    st.progress(min(float(temperature)/50, 1.0))
+
+with col4:
+    st.write("🩸 Blood Oxygen:", oxygen, "%")
+    st.progress(min(float(oxygen)/100, 1.0))
+
+    st.write("👣 Step Count:", steps)
+
+# ------------------ PREDICTION & ALERTS ------------------
+st.markdown("---")
 if st.button("🔍 Check Status"):
-
-    # Prepare sample for prediction
-    sample = [[heart_rate, temperature, oxygen, steps]]
-
+    
+    # Prepare input for prediction
+    sample = [[float(heart_rate), float(temperature), float(oxygen), float(steps)]]
     prediction = model.predict(sample)
     activity = activity_map[prediction[0]]
 
@@ -74,24 +83,20 @@ if st.button("🔍 Check Status"):
     # Additional health alerts
     if temperature > 37.5:
         st.warning("⚠️ Elevated body temperature detected. Check for stress or illness.")
-
     if oxygen < 95:
         st.warning("⚠️ Low blood oxygen level detected.")
 
     # ------------------ CHART ------------------
-
-    st.subheader("📊 Vital Signs Overview")
-
+    st.subheader("📊 Vital Signs Chart")
     data = pd.DataFrame({
         "Vital Sign": ["Heart Rate", "Temperature", "Oxygen", "Steps"],
         "Value": [heart_rate, temperature, oxygen, steps]
     })
-
     st.bar_chart(data.set_index("Vital Sign"))
 
-# Footer
+# ------------------ FOOTER ------------------
 st.markdown("---")
-st.write("Developed for Biomedical Engineering Fatigue Monitoring Project")
+st.write(" Fatigue and stress Monitoring Sytem")
         
 
 
