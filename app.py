@@ -38,15 +38,6 @@ model = joblib.load("fatigue_model.pkl")
 # Map model outputs to activity
 activity_map = {0: "Resting", 1: "Walking", 2: "Running"}
 
-# App title
-st.title("Fatigue & Stress Monitoring System")
-st.write("Enter the  readings below:")
-
-# User inputs
-heart_rate = st.number_input("Heart Rate (bpm)")
-temperature = st.number_input("Body Temperature (°C)")
-oxygen = st.number_input("Blood Oxygen (%)")
-steps = st.number_input("Step Count")
 
 # Predict button
 if st.button("Check Status"):
