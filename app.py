@@ -31,7 +31,7 @@ with col1:
     )
     temperature = st.number_input(
         "Body Temperature (°C)"
-
+    )
 with col2:
     oxygen = st.number_input(
         "Blood Oxygen (%)"
